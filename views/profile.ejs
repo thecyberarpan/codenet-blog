@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+<% include ./partials/header.ejs %>
+    
+<h1>This is profile page</h1>
+<%= user.username %>
+<%= user.email %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 
-<body>
-    <h1>This is profile page</h1>
+<textarea></textarea>
 
-    <%= user.username %>
-
-</body>
-
-</html>
+<% include ./partials/footer.ejs %>

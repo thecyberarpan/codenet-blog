@@ -9,8 +9,10 @@ const postSchema = mongoose.Schema({
         default: Date.now()
     },
 
-    user: {
+    user: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
-    },
+    }],
 });
+
+module.exports = mongoose.model('post', postSchema)

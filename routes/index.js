@@ -5,7 +5,8 @@ const postModel = require('./post');
 const passport = require('passport');
 const localStrategy = require('passport-local');
 passport.use(new localStrategy(userModel.authenticate()));
-// const multer = require
+const multer = require('multer');
+const upload = require('./multer');
 
 /* middileware for restrict path for loggedin users */
 function isLoggedin(req, res, next) {
@@ -61,9 +62,32 @@ router.get('/profile', isLoggedin, async function (req, res) {
   res.render('profile', { user });
 });
 
+/* Upload blogpost */
+router.post('/createpost', isLoggedin, upload.single('image'), async function (req, res) {
+  const user = await userModel.findOne({ username: req.session.passport.user });
+  const post = await postModel.create(
+    {
+      user: user._id,
+      title: req.body.title,
+      content: req.body.content,
+      image: req.file.filename,
+    }
+  );
+  user.post.push(post._id);
+  await user.save();
+  res.redirect("/profile");
+});
+
+router.get('/createpost', isLoggedin, function (req, res) {
+  res.render("createpost");
+});
+
 /* All blog page */
 router.get('/blog', function (req, res) {
   res.render('blog');
 });
+
+
+
 
 module.exports = router;
