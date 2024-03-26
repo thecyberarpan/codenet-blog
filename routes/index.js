@@ -71,8 +71,11 @@ router.post('/createpost', isLoggedin, upload.single('image'), async function (r
       title: req.body.title,
       content: req.body.content,
       image: req.file.filename,
+      category: req.body.category, // Set the category field
+
     }
   );
+  console.log(post)
   user.post.push(post._id);
   await user.save();
   res.redirect("/profile");
@@ -85,7 +88,9 @@ router.get('/createpost', isLoggedin, function (req, res) {
 /* All blog page */
 router.get('/blog', async function (req, res) {
   const postData = await postModel.find({});
-  res.render('blog', { postData });
+  const categories = [...new Set(postData.map(post => post.category))];
+  console.log(categories);
+  res.render('blog', { postData, categories });
 })
 
 // /* Single blog page */

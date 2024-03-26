@@ -2,14 +2,10 @@ const mongoose = require('mongoose');
 const slugify = require('slugify');
 
 
-
-
-
-
 const postSchema = mongoose.Schema({
     title: String,
     slug: String, // Add slug field
-
+    category: String,
     content: String,
     image: String,
     date: {
