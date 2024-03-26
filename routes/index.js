@@ -88,11 +88,17 @@ router.get('/blog', async function (req, res) {
   res.render('blog', { postData });
 })
 
+// /* Single blog page */
+// router.get('/blog/:postId', async function (req, res) {
+//   const postId = req.params.postId;
+//   // const post = await postModel.findById(postId);
+//   const post = await postModel.findById(req.params.postId);
+//   res.render('blog-single', { post });
+// });
+
 /* Single blog page */
-router.get('/blog/:postId', async function (req, res) {
-  const postId = req.params.postId;
-  // const post = await postModel.findById(postId);
-  const post = await postModel.findById(req.params.postId);
+router.get('/blog/:slug', async function (req, res) {
+  const post = await postModel.findOne({ slug: req.params.slug });
   res.render('blog-single', { post });
 });
 
