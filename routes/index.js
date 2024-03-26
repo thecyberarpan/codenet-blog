@@ -83,11 +83,17 @@ router.get('/createpost', isLoggedin, function (req, res) {
 });
 
 /* All blog page */
-router.get('/blog', function (req, res) {
-  res.render('blog');
+router.get('/blog', async function (req, res) {
+  const postData = await postModel.find({});
+  res.render('blog', { postData });
+})
+
+/* Single blog page */
+router.get('/blog/:postId', async function (req, res) {
+  const postId = req.params.postId;
+  // const post = await postModel.findById(postId);
+  const post = await postModel.findById(req.params.postId);
+  res.render('blog-single', { post });
 });
-
-
-
 
 module.exports = router;
